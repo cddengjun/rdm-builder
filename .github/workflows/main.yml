@@ -262,7 +262,11 @@ jobs:
     - name: build
       id: build
       run: |
-        python ./rdm/build/utils/set_version.py ${{ env.VERSION }} > ./rdm/src/version.h
+        tee ./rdm/src/version.h <<-'EOF'
+            #ifndef RDM_VERSION
+                #define RDM_VERSION "${{ env.VERSION }}"
+            #endif // !RDM_VERSION
+        EOF
         cd rdm/src
         qmake rdm.pro CONFIG-=debug
         make -s -j 8
