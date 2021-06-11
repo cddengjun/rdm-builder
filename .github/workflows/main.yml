@@ -262,11 +262,7 @@ jobs:
     - name: build
       id: build
       run: |
-        tee ./rdm/src/version.h <<-'EOF'
-            #ifndef RDM_VERSION
-                #define RDM_VERSION "${{ env.VERSION }}"
-            #endif // !RDM_VERSION
-        EOF
+        sed -i ''  's/2021.3.0-dev/${{ env.VERSION }}/g' ./rdm/src/rdm.pro
         cd rdm/src
         qmake rdm.pro CONFIG-=debug
         make -s -j 8
